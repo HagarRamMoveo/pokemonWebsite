@@ -1,0 +1,33 @@
+<!-- input -->
+<div>
+    <input type="text" class="input-search" [(ngModel)]="searchInput" (input)="searchPokemon(searchInput)" />
+    <button class="search-btn" (click)="searchPokemon(searchInput)" [disabled]="searchInput === ''">SEARCH</button>
+  </div>
+
+  <!-- selected -->
+  <select (change)="selectPokemon($event)">
+    <option *ngFor="let pokemon of filteredPokemonData">{{ pokemon.name }}</option>
+  </select>  
+
+  <!-- data + modal -->
+<div class="pokemons-container">
+    <div *ngFor="let pokemon of filteredPokemonData">
+        <div (click)="openModal(pokemon, modalContent)">
+          <h3>{{ pokemon.name }}</h3>
+          <img alt="{{ pokemon.name }}" src="{{ pokemon.url }}" />
+        </div>
+      </div>
+      
+  </div>
+  <ng-template #modalContent let-modalContent>
+    <div class="modal-header">
+      <h4 class="modal-title">{{ selectedPokemon?.name }}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modalService.dismissAll()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="pokemon-name-modal">{{selectedPokemon?.name}}</div>
+      <img class="pokemon-image-modal" alt="{{ selectedPokemon?.name }}" src="{{ selectedPokemon?.url }}" />
+    </div>
+  </ng-template>
